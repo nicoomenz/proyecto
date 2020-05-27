@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}Talleres{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/user/new.css" type="text/css" media="all">
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<div class="row align-items-center">
+<div class="col columna-lateral"></div>
+
+<div class="col-central">
+  	<div  id="centro" class="rounded container">
+	  	<br>
+	  	<h1>Asistencia de estudiantes</h1>
+	  	<br>
+	  	<label>Nombre del taller:</label> <h2>{{taller.nombre}}</h2>
+	  	<label>Horario inicio:</label> <h3>{{horario.hora_ini}}</h3>
+	  	<label>Horario fin:</label> <h3>{{horario.hora_fin}}</h3>
+	  	<form action="{{ url_for('horario_guardar_asistencia', pagina=0) }}" method="POST">
+	  		<label>Seleccion una fecha: </label>
+	  		<input type="date" id="fecha_asist" name="fecha_asist" class="form-control"/>
+	  		<br>
+			<table class="table table-dark table-hover rounded">
+				<thead>
+					<tr>
+				    	<th>Nombre</th>
+				        <th>Apellido</th>
+				        <th>Documento</th>
+				        <th>Presente</th>
+				        <th>Falta</th>				        
+				    </tr>
+				</thead>
+				<tbody>
+					{% for alumno in alumnos %}
+					<tr>
+						<td>{{ alumno.nombre}}</td> 
+						<td>{{ alumno.apellido}}</td>
+						<td>{{ alumno.numero_doc}}</td> 
+						<td>
+							<input name="checkAsistencia" value="{{alumno.id}}" type="radio"/>
+					  		<br>
+			 			</td>
+<!--<input name="checkAsistencia" value='{"key1":{{alumno.id}}, "key2":2}' type="radio"/> -->
+			 			<td>
+					  		<input name="checkAsistencia" value="{{alumno.id}}" type="radio"/>
+					 		<br>
+			 			</td>
+				  	</tr>
+				  	{% endfor %}
+		      		</td>  
+				</tbody>
+			</table>
+			<button type="submit"  class="btn btn-primary">Guardar asistencia</button>
+		    <br>
+		 	<br>
+	 	</form>
+	</div>
+</div>  
+
+<div class="col columna-lateral"></div>  
+		 	
+		 	
+{% endblock %}

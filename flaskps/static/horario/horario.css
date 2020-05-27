@@ -1,0 +1,12 @@
+#centro{
+	background: #454d55;
+}
+
+h1, label, p{
+	color: #FFF;
+}
+
+#error-hora_inicial-condicion, #error-hora_inicial-empty, #error-hora_inicial-mayor,
+#error-hora_final-empty, #error-hora_final-condicion{
+	display: none;
+}

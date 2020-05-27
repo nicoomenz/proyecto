@@ -1,0 +1,12 @@
+#centro{
+	background: #454d55;
+}
+
+h1, label{
+	color: #FFF;
+}
+
+#error-fecha_fin-empty, #error-fecha_ini-empty, #error-semestre-empty, #error-fecha_ini-menorActual,
+#error-fecha_fin-menorIni, #error-semestre-condicion{
+	display: none;
+}

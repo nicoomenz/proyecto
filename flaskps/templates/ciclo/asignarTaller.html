@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block title %}Asignar Taller{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/user/new.css" type="text/css" media="all">
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<div class="row align-items-center">
+<div class="col columna-lateral"></div>
+
+<div class="col-central">
+  <div  id="centro" class="rounded container">
+  <br>
+  <h1>Asignar taller a ciclo lectivo</h1>
+  <br>
+    <form action="{{ url_for('ciclo_add') }}" method="POST">
+        <div class="custom-control-inline">
+            <label>Ciclo Lectivo:</label> &nbsp; &nbsp; &nbsp; 
+            <select id="cicloLectivo" class="form-control" name="cicloLectivo">
+              {% for ciclo in ciclos %}
+              <option value="{{ciclo.id}}">            
+              Semestre: {{ciclo.semestre}} Inicio:{{ciclo.fecha_ini}} Fin:{{ciclo.fecha_fin}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+         <div class="custom-control-inline">
+            <label>Talleres:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="taller" class="form-control" name="taller">
+              {% for taller in talleres %}
+              <option value="{{taller.id}}">            
+              {{taller.nombre}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Crear</button>
+       </form>      
+    <br>
+  </div>
+</div>  
+
+<div class="col columna-lateral"></div>   
+    
+
+{% endblock %}
+      

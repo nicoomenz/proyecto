@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+{% block title %}Horario{% endblock %}
+{% block head %}
+  {{ super() }}
+<link rel="stylesheet" href="/static/horario/horario.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+      <div id="centro" class="rounded container">
+      <br>
+      <h1>Modificar horario</h1>
+      <br>
+      <form action="{{ url_for('horario_modificar', id = horario.id)}}" method="POST" onsubmit="return validarHorario()">
+         <input type="hidden" name="idHorario" value="{{ horario.id }}" class="form-control"/>
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger"><strong>{{ message }}</strong></div>
+            {% endfor %}
+          {% endif %}
+          {% endwith %}
+          <!-- Ciclos - Talleres -->
+          <div class="custom-control-inline">
+             <input type="hidden" name="ciclo_taller" id="ciclo_taller" value="{{ horario.ciclo_lectivo_taller }}" class="form-control"/>
+            <label for="example-date-input">Ciclo/Taller:</label>  &nbsp; &nbsp; &nbsp; 
+            {%if horario.semestre == 1 %}
+             <p>Primer semestre | Fecha Inicio: {{horario.fecha_ini}} Fecha Fin: {{horario.fecha_fin}} Taller: {{horario.nombre}}</p>
+          {%else%}
+            <p>Segundo semestre | Fecha Inicio: {{horario.fecha_ini}} Fecha Fin: {{horario.fecha_fin}} Taller: {{horario.nombre}} </p>
+           {%endif%}
+          </div>
+          <br>
+          <br>
+
+          <!-- Nucleo -->
+          <div class="custom-control-inline">
+            <label for="example-date-input">Nucleo:</label>  &nbsp; &nbsp; &nbsp; 
+            <select title="Seleccione un nucleo" class="form-control" id="nucleo" name="nucleo" >
+            {% for nucleo in nucleos %}
+            {%if nucleo.id == horario.nucleo%}
+              <option value="{{nucleo.id}}">   
+                {{nucleo.nombre}}, {{nucleo.direccion}}
+              </option>
+              {%endif%}
+            {% endfor %}
+            {% for nucleo in nucleos %}
+            {%if nucleo.id != horario.nucleo%}
+              <option value="{{nucleo.id}}">   
+                {{nucleo.nombre}}, {{nucleo.direccion}}
+              </option>
+              {%endif%}
+            {% endfor %}    
+            </select>
+          </div>
+          <br>
+          <br>
+
+          <!-- Dia -->
+          <div class="custom-control-inline">
+            <label for="example-date-input">Dia:</label>  &nbsp; &nbsp; &nbsp; 
+            <select title="Seleccione un dia" class="form-control" id="dia" name="dia" >
+            {% for dia in dias %}
+            {%if dia.id == horario.dia_id%}
+              <option value="{{dia.id}}">            
+                {{dia.nombre}}
+              </option>
+            {%endif%}
+            {% endfor %}
+            {% for dia in dias %}
+            {%if dia.id != horario.dia_id%}
+              <option value="{{dia.id}}">            
+                {{dia.nombre}}
+              </option>
+            {%endif%}
+            {% endfor %}      
+            </select>
+          </div>
+          <br>
+          <br>
+
+          <!-- Hora inicial --> 
+          <div class="custom-control-inline">
+            <label for="example-date-input">Hora de inicio:</label>  &nbsp; &nbsp; &nbsp; 
+            <input type="time" id="hora_ini" name="hora_ini" step="1" value="{{horario.hora_ini}}" class="form-control">
+          </div>
+          <br>
+          <div id="error-hora_inicial-empty" class="alert alert-danger">
+                <strong>La hora inicial no puede estar vacia</strong> 
+          </div>
+          <div id="error-hora_inicial-condicion" class="alert alert-danger">
+            <strong>La hora inicial se sobrepone con una hora existente</strong> 
+          </div>
+          <div id="error-hora_inicial-mayor" class="alert alert-danger">
+            <strong>La hora inicial debe ser menor a la hora final</strong> 
+          </div>
+          <br>
+
+          <!-- Hora final --> 
+          <div class="custom-control-inline">
+            <label for="example-date-input">Hora de fin:</label>  &nbsp; &nbsp; &nbsp; 
+            <input type="time" id="hora_fin" name="hora_fin" step="1" value="{{horario.hora_fin}}" class="form-control">
+          </div>
+          <br>
+          <div id="error-hora_final-empty" class="alert alert-danger">
+            <strong>La hora final no puede estar vacia</strong> 
+          </div>
+          <div id="error-hora_final-condicion" class="alert alert-danger">
+            <strong>La hora final se sobrepone con una hora existente</strong> 
+          </div>
+          <br>
+          <button id="btnvalidar" type="submit" class="btn btn-primary">Modificar</button>
+        </form>
+        <br>
+             <button  class="btn btn-primary"><a href="{{ url_for('horario_index', pagina=0) }}" style='text-decoration:none;color:white;' >Volver</a></button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <br>
+        <br>
+    </div>
+  </div>
+
+    <div class="col columna-lateral">
+    </div>
+ </div>
+{% endblock %}
+{% block footer%}
+<script type="text/javascript" src="/static/horario/validaciones.js"></script>
+{% endblock %}
+
+
+
+

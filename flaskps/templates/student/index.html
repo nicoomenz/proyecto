@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block title %}Estudiantes{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/user/new.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+<div class="row align-items-center">
+<div class="col columna-lateral"></div>
+
+<div class="col-central">
+  <div  id="centro" class="rounded container">
+    <br>
+  	<h1>Estudiantes</h1>
+    <br>
+   		 <table class="table table-dark table-hover rounded">
+		    <thead>
+		        <th>Nombre</th>
+		        <th>Apellido</th>
+		        {% for permiso in permisos %}
+                {% if permiso.nombre == "docente_update"%}
+		        <th></th>
+		        {%endif%}
+                {% endfor %}
+                {% for permiso in permisos %}
+                {% if permiso.nombre == "docente_destroy"%}
+		        <th></th>
+		        {%endif%}
+                {% endfor %}
+		    </thead>
+		    <tbody>
+		        {% for estudiante in estudiantes %}
+		        <tr>
+		  		<td>{{ estudiante.nombre }}</td> 
+		  		<td>{{ estudiante.apellido }}</td> 
+		  		{% for permiso in permisos %}
+               	{% if permiso.nombre == "docente_update"%}
+          <td>
+            <button  class="btn btn-primary"><a href="{{ url_for('student_show', id= estudiante.id, pagina=0) }}" style='text-decoration:none;color:white;' >Ver detalles</a></button>
+          </td> 
+		  		{%endif%}
+                {% endfor %}
+                {% for permiso in permisos %}
+                {% if permiso.nombre == "docente_destroy"%} 
+		  		<td>
+
+		  			<button  class="btn btn-danger"><a href="{{ url_for('student_delete', id= estudiante.id, pagina=0) }}" style='text-decoration:none;color:white;' onclick="return validarEliminar()" >Eliminar</a></button>
+ 				</td>
+ 				{%endif%}
+                {% endfor %}
+		  		{% endfor %}
+      		 </td>  
+		    </tbody>
+		 </table>
+		 <nav aria-label="page navigation">
+            <ul class="pagination justify-content-center">
+              {% if rango < 1 %}
+                <li class="page-item"><a class="page-link" href="?action={{url_for(vista)}}&pagina=0">1</a></li>  
+              {% else %}
+              {% for i in range(rango) %}
+              {% if vista == 'user_find' %}
+              	<li class="page-item"><a class="page-link" href="{{ url_for(vista, pagina=i)}}">{{i}}</a></li>
+              {% else %}
+                  <li class="page-item"><a class="page-link" href="{{ url_for(vista, pagina=i)}}">{{i}}</a></li>
+              {% endif %}    
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </nav>
+    <br>
+  </div>
+</div>  
+
+<div class="col columna-lateral"></div>  
+{% endblock %}
+{% block footer %}
+<script type="text/javascript" src="/static/user/validarEliminar.js"></script>
+{% endblock %}

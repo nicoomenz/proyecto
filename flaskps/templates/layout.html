@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+
+    <!-- Estos los agrego pierina, son para bootstrap y para que funcione la lista del navbar -->
+    <!-- link y script del mapa -->
+   <!-- fin de link y script del mapa -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+    <!-- Este lo agrego pierina para los iconos -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+  </head>
+  
+  <body>
+
+    <div id="navbar">
+      {% block navbar %}
+        {% if session['user'] == null %}
+         <!-- Nabvar de usuario no loggeado -->
+         <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+            <!-- Brand -->
+            <a class="navbar-brand" href="{{url_for('home_index')}}"><img class="rounded" height="50" width="50" src="http://www.oeberisso.com.ar/wp-content/uploads/2017/12/cropped-Logo-Orquesta-Escuela-de-Berisso-PNG.png"></a>
+
+            <!-- Links -->
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('home_index')}}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('auth_login')}}">Iniciar Sesion</a>
+              </li>
+              
+              
+            </ul>
+          </nav>
+
+          {% else %}
+            <!-- Navbar de admin -->
+          <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+            <!-- Brand -->
+            <a class="navbar-brand" href="{{url_for('home_indexIniciada')}}"><img class="rounded" height="50" width="50" src="http://www.oeberisso.com.ar/wp-content/uploads/2017/12/cropped-Logo-Orquesta-Escuela-de-Berisso-PNG.png"></a>
+
+            <!-- Links -->
+            <ul class="navbar-nav">
+              <!-- Dropdown Usuarios -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                  Usuarios
+                </a>
+                <div class="dropdown-menu">
+                 {% for permiso in permisos %}
+                  {% if permiso.nombre == "docente_new"%}
+                  <a class="dropdown-item" href="{{url_for('user_new',pagina=0)}}">Nuevo usuario</a>
+                  {%endif%}
+                  {% endfor %}
+                  {% for permiso in permisos %}
+                  {% if permiso.nombre == "docente_index" %}            
+                  <a class="dropdown-item" href="{{ url_for('user_index', pagina=0)}}">Listar usuarios</a>
+                  {%endif%}
+                  {% endfor %}
+                </div>
+              </li>
+
+              <!-- Dropdown Estudiantes -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                  Estudiantes
+                </a>
+                  <div class="dropdown-menu">
+                  {% for permiso in permisos %}
+                  {% if permiso.nombre == "estudiante_new" %}
+                  <a class="dropdown-item" href="{{url_for('student_new')}}">Nuevo estudiante</a>
+                  {%endif%}
+                  {% endfor %}
+                  {% for permiso in permisos %}
+                  {% if permiso.nombre == "estudiante_index" %}
+                  <a class="dropdown-item" href="{{url_for('student_index',pagina=0)}}">Listar estudiantes</a>
+                  {%endif%}
+                  {% endfor %}
+                 </div>
+              </li>
+
+              <!-- Dropdown Instrumentos -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                  Instrumentos
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{{url_for('instrumentos_new')}}">Nuevo instrumento</a>
+                  <a class="dropdown-item" href="{{url_for('instrumentos_index',pagina=0)}}">Listar instrumentos</a>
+                </div>
+              </li>
+
+              <!-- Dropdown Ciclo Lectivo -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                  Ciclo Lectivo
+                </a>
+                <div class="dropdown-menu">
+                  {% for permiso in permisos %}
+                  {% if permiso.nombre == "cicloLectivo_new" %}
+                  <a class="dropdown-item" href="{{url_for('ciclo_new')}}">Nuevo Ciclo Lectivo</a>
+                  {%endif%}
+                  {% endfor %}
+                  {% for permiso in permisos %}
+                  {% if permiso.nombre == "cicloLectivo_index" %}
+                  <a class="dropdown-item" href="{{url_for('ciclo_index')}}">Ciclos Lectivos</a>
+                  {%endif%}
+                  {% endfor %}
+                  {% for permiso in permisos %}
+                  {% if permiso.nombre == "cicloLectivo_asignarTaller" %}
+                  <a class="dropdown-item" href="{{url_for('ciclo_taller')}}">Asignar Taller</a>
+                  {%endif%}
+                  {% endfor %}
+                </div>
+              </li>
+
+              <!--Dropdown Talleres -->
+              <li class="nav-item">  
+                  <a class="nav-link" href="{{url_for('taller_index')}}">Todos los Talleres</a>
+              </li>
+
+              <!--Dropdown Horarios -->
+              <li class="nav-item dropdown">  
+              <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                  Horarios
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{{url_for('horario_index')}}">Todos los Horarios</a>
+<!--                   {% for permiso in permisos %}
+                  {% if permiso.nombre == "taller_asignarDocenteYalumno" %} -->
+                  <a class="dropdown-item" href="{{url_for('horario_new')}}">Asignar Horario</a>
+
+                  {% for permiso in permisos %}
+                  {% if permiso.nombre == "taller_asignarDocenteYalumno" %}
+                  <a class="dropdown-item" href="{{url_for('horario_docentes')}}">Asignar Docentes</a>
+                  <a class="dropdown-item" href="{{url_for('horario_estudiantes')}}">Asignar Estudiantes</a>
+                  {%endif%}
+                  {% endfor %}
+          
+
+<!--                   {%endif%}
+                  {% endfor %} -->
+                </div>
+              </li>
+              
+              <li class="nav-item">  
+                  <a class="nav-link" href="{{url_for('asistencia_show', pagina=0)}}">Asistencias</a>
+              </li>
+
+              <!-- Configuraciones -->
+              <li class="nav-item">
+                {% for permiso in permisos %}
+                {% if permiso.nombre == "permiso_configuracion" %}
+                <a class="nav-link" href="{{url_for('configuracion_index')}}">Configuraciones</a>
+                {%endif%}
+                {% endfor %}
+              </li>
+
+              <!-- Cerrar sesion -->
+               <li class="nav-item">
+                <a class="nav-link" href="{{url_for('auth_logout')}}">Cerrar sesion</a>
+              </li>
+            </ul>
+          </nav>
+      {% endif %}
+      {% endblock %}
+    </div>
+    <div id="content">
+
+      {% block content %}
+      {% endblock %}
+    </div>
+    <div id="footer">
+      {% block footer %}
+      <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <script type="text/javascript" src="/static/home/map.js"></script>
+
+      {% endblock %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+#centro{
+	background: #454d55;
+}
+
+h1,p, label,h4{
+	color: #FFF;
+}
+
+#error-first_name-empty, #error-last_name-empty, #error-edad-empty, #error-email-empty, 
+#error-password-empty, #error-first_name-only-letters, #error-last_name-only-letters, 
+#error-edad-only-numbers, #error-password-condition, #error-rol-empty, #error-email-condition,
+#error-numero_doc-empty, #error-numero_doc-only-numbers, #error-telefono-empty, #error-telefono-only-numbers,
+#error-domicilio-empty,#error-localidad-empty, #error-fecha_nac-empty, #error-tipo_doc-empty,
+#error-fecha_nac-condicion{
+	display: none;
+}

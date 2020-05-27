@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block title %}Talleres{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/user/new.css" type="text/css" media="all">
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<div class="row align-items-center">
+<div class="col columna-lateral"></div>
+
+<div class="col-central">
+  <div  id="centro" class="rounded container">
+  	<br>
+  	<h1>Horarios disponibles</h1>
+  	<br>
+	<table class="table table-dark table-hover rounded">
+		<thead>
+			<tr>
+		    	<th>Ciclo lectivo</th>
+		    	<th>Taller</th>
+		        <th>Nucleo</th>
+		        <th></th>
+		    	<th></th>
+		    </tr>
+		</thead>
+		<tbody>
+			{%for horario in horarios%}
+			<tr>
+				<!--Ciclo-->
+				{%if horario.semestre == 1%}
+				<th>Primer Semestre | Inicio: {{horario.fecha_ini}} Fin: {{horario.fecha_fin}}</th>
+				{%else%}
+				<th>Segundo Semestre | Inicio: {{horario.fecha_ini}} Fin: {{horario.fecha_fin}}</th>
+				{%endif%}
+
+				<!-- Taller -->
+				<th>{{horario.nombre_corto}}</th>
+
+				<!-- Nucleo -->
+				{%for nucleo in nucleos%}
+				{%if horario.nucleo == nucleo.id%}
+				<th>{{nucleo.nombre}}</th>
+				{%endif%}
+				{%endfor%}
+
+				<th> <button  class="btn btn-primary"><a href="{{ url_for('horario_show', id= horario.id, pagina=0) }}" style='text-decoration:none;color:white;' >Ver detalles</a></button></th>
+
+				<th> <button  class="btn btn-primary"><a href="{{ url_for('horario_delete', id= horario.id, pagina=0) }}" style='text-decoration:none;color:white;' >Eliminar</a></button></th>
+
+			</tr>
+			{%endfor%}
+		</tbody>
+	</table>
+    <br>
+  </div>
+</div>  
+
+<div class="col columna-lateral"></div>  
+		 	
+		 	
+{% endblock %}

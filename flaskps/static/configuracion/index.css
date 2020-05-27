@@ -1,0 +1,11 @@
+#centro{
+	background: #454d55;
+}
+
+h1, label{
+	color: #FFF;
+}
+
+#error-titlo, #error-descripcion, #error-email, #error-paginacion, #error-paginacion-only-numbers{
+	display: none;
+}

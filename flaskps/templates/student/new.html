@@ -1,0 +1,252 @@
+{% extends "layout.html" %}
+{% block title %}Estudiantes{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/student/new.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+      <div  id="centro" class="rounded container">
+      <br>
+      <h1>Crear un estudiante</h1>
+      <br>
+        <form action="{{ url_for('student_create', pagina=0) }}" method="POST" onsubmit="return validarRegistrarEstudiante()">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger"><strong>{{ message }}</strong></div>
+            {% endfor %}
+          {% endif %}
+          {% endwith %}
+        <!-- Nombre -->
+        <div class="custom-control-inline">
+          <label>Nombre*:</label> &nbsp; &nbsp; &nbsp; 
+          <input id="first_name" name="first_name" placeholder="Nombre" class="form-control"/> 
+        </div>
+          <br>
+          <div id="error-first_name-empty" class="alert alert-danger">
+                <strong>El nombre es obligatorio </strong> 
+          </div>
+          <div id="error-first_name-only-letters" class="alert alert-danger">
+                <strong>El nombre debe contener solo letras</strong> 
+          </div>
+          <br>
+
+          <!-- Apellido -->
+          <div class="custom-control-inline">
+            <label>Apellido*:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="last_name" name="last_name" placeholder="Apellido" class="form-control"/>
+          </div>
+          <br>
+          <div id="error-last_name-empty" class="alert alert-danger">
+                <strong>El apellido es obligatorio </strong> 
+          </div>
+          <div id="error-last_name-only-letters" class="alert alert-danger">
+                <strong>El apellido debe contener solo letras</strong> 
+          </div>
+          <br>
+
+          <!-- Fecha nacimiento -->
+          <div class="custom-control-inline"> 
+            <label>Fecha de nacimiento*:</label> &nbsp; &nbsp; &nbsp; 
+            <input type="date" id="fecha_nac" name="fecha_nac" class="form-control"/>
+          </div>
+          <br>
+          <br>
+          <div id="error-fecha_nac-empty" class="alert alert-danger">
+                <strong>La fecha de nacimiento es obligatoria</strong> 
+          </div>
+          <div id="error-fecha_nac-condicion" class="alert alert-danger">
+                <strong>Ingrese una fecha de nacimiento válida</strong> 
+          </div>
+          <!--Tipo de documento -->
+          <div class="custom-control-inline">
+            <label>Tipo de documento*:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="tipo_doc" class="form-control" name="tipo_doc">
+              {% for documento in documentos %}
+              <option value="{{documento.id}}">            
+              {{documento.nombre}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+          <br>
+          <!-- Numero doc -->
+          <div class="custom-control-inline"> 
+            <label>Numero de documento*:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="numero_doc" name="numero_doc" placeholder="Numero de documento" class="form-control"/>
+          </div>
+          <br>
+          <br>
+          <div id="error-numero_doc-empty" class="alert alert-danger">
+            <strong>El numero de documento es obligatorio </strong> 
+          </div>
+          <div id="error-numero_doc-only-numbers" class="alert alert-danger">
+            <strong>El numero de documento debe contener solo numeros</strong> 
+          </div>
+          <!-- Responsable a cargo -->
+          <div class="custom-control-inline">
+            <label>Responsable a cargo:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="responsable" class="form-control" name="responsable">
+              {% for responsable in responsables %}
+              <option value="{{responsable.id}}">            
+              {{responsable.responsable}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+          <br>
+          <!--Genero-->
+          <label>Genero*:</label>
+              <input name="genero" value="1" type="radio" checked/>
+              <label>Masculino</label>
+              <input name="genero" value="2" type="radio"/>
+              <label>Femenino</label>
+              <input name="genero" value="3" type="radio"/>
+              <label>Otro</label>
+          <br>
+          <br>
+          <!-- Lugar de nacimiento-->
+          <div class="custom-control-inline"> 
+            <label>Lugar de nacimiento:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="lugar_de_nacimiento" name="lugar_de_nacimiento" placeholder="Lugar de nacimiento" class="form-control"/>
+          </div>
+          <br>
+          <br>
+          <!--Domicilio -->
+          <div class="custom-control-inline"> 
+            <label>Domicilio*:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="domicilio" name="domicilio" placeholder="Domicilio" class="form-control"/>
+          </div>
+          <br>
+          <br>
+          <div id="error-domicilio-empty" class="alert alert-danger">
+                <strong>El domicilio es obligatorio </strong> 
+          </div>
+          <!--Localidad-->
+          <div class="custom-control-inline">
+            <label>Localidad:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="localidad" class="form-control" name="localidad">
+              {% for localidad in localidades %}
+              <option value="{{localidad.id}}">            
+              {{localidad.nombre}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+          <br>
+          <!--Barrio-->
+          <div class="custom-control-inline">
+            <label>Barrio*:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="barrio" class="form-control" name="barrio">
+              {% for barrio in barrios %}
+              <option value="{{barrio.id}}">  
+              {{barrio.nombre}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+          <br>
+          <!--Escuela-->
+          <div class="custom-control-inline">
+            <label>Escuela*:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="escuela" class="form-control" name="escuela">
+              {% for escuela in escuelas %}
+              <option value="{{escuela.id}}">  
+              {{escuela.nombre}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+          <br>
+          <!--Telefono-->
+          <div class="custom-control-inline"> 
+            <label>Telefono:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="telefono" name="telefono" placeholder="Telefono" class="form-control"/>
+          </div>
+          <br>
+          <br>
+          <!-- Estado -->
+          <label>Estado:</label>
+            <input name="estado" value="1" type="radio" checked/>
+            <label>Activo</label>
+            <input name="estado" value="0" type="radio"/>
+            <label>Bloqueado</label>
+          <br>
+          <br>
+          <!-- Nivel -->
+          <div class="custom-control-inline">
+            <label>Nivel*:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="nivel" class="form-control" name="nivel">
+              {% for nivel in niveles %}
+              <option value="{{nivel.id}}">  
+              {{nivel.nombre_colores}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+          <br>
+          <!-- Aparece el nivel magicamente 
+          <div id="app">
+            <label>Rol:</label>
+            <select v-model="selected" id="rol" class="form-control" name="rol">
+              {% for rol in roles %}
+              <option value="{{rol.name}}">            
+              {{rol.name}}
+              </option>
+              {% endfor %}
+             <option selected="true" disabled="disabled">seleccione el rol</option>
+            </select>
+            <br> -->
+
+            <!---<b>you selected: {%raw %} {{ selected }} {% endraw %}</b> esto estaba comentado originalmente-->
+          
+          <!-- Aparece el nivel magicamente 2
+            <div v-if="selected === 'alumno'">
+              <label>Nivel:</label>
+              <select  class="form-control" name="nivel">
+                {% for nivel in niveles %}
+                <option id="nivel" value="{{nivel.id}}">            
+                {{nivel.nombre_colores}}
+                </option>
+                {% endfor %}
+                 <option selected="true" disabled="disabled">seleccione el nivel</option>
+              </select>
+              <br>
+            </div>
+            <div v-else> 
+              <input type="hidden" name="nivel" value="6">
+            </div>
+          </div> -->
+        <button id="btnvalidar" type="submit" class="btn btn-primary" onclick="">Crear</button>
+        </form>
+        <br>
+        <br>
+    </div>
+  </div>
+
+    <div class="col columna-lateral">
+    </div>
+ </div>
+{% endblock %}
+{% block footer %}
+<script src="/static/user/indexUser.vue" type="text/javascript" ></script>
+<script type="text/javascript" src="/static/student/validaciones.js"></script>
+{% endblock %}

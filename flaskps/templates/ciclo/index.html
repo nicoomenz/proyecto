@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block title %}Ciclos Lectivos{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/user/new.css" type="text/css" media="all">
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<div class="row align-items-center">
+<div class="col columna-lateral"></div>
+
+<div class="col-central">
+  <div  id="centro" class="rounded container">
+  <br>
+  <h1>Ciclos lectivos</h1>
+  <br>
+    <table class="table table-dark table-hover rounded">
+		    <thead>
+		      <tr>
+		        <th>Fecha Ini</th>
+		        <th>Fecha Fin</th>
+		        <th>Semestre</th>
+		        <th></th>
+		        {% for permiso in permisos %}
+                {% if permiso.nombre == "cicloLectivo_destroy"%}
+		        <th></th>
+		        {%endif%}
+                {% endfor %}
+		      </tr>
+		    </thead>
+			<tbody>
+		        {% for ciclo in ciclos %}
+		        <tr>
+			  		<td>{{ ciclo.fecha_ini}}</td> 
+			  		<td>{{ ciclo.fecha_fin }}</td> 
+			  		{%if ciclo.semestre == 1 %}
+	          			<td> Primer semestre </td>
+	          		{%else%}
+	          			<td> Segundo semestre </td>
+	          		{%endif%}
+			  		<td>
+			  			<button  class="btn btn-primary"><a href="{{url_for('ciclo_show', id=ciclo.id)}}" style='text-decoration:none;color:white;' >Ver detalles</a></button>
+	 				</td>
+	 				{% for permiso in permisos %}
+                	{% if permiso.nombre == "cicloLectivo_destroy"%}
+	 				<td>
+	 					<button  class="btn btn-danger"><a href="{{ url_for('ciclo_delete', id=ciclo.id) }}" style='text-decoration:none;color:white;' onclick="return validarEliminar()" >Eliminar</a></button>
+	 				</td>
+	 				{%endif%}
+                	{% endfor %}
+			  		{% endfor %}
+		  		</tr> 
+		    </tbody>
+		 	</table>
+    <br>
+  </div>
+</div>  
+
+<div class="col columna-lateral"></div>   
+    
+{% endblock %}
+{% block footer %}
+<script type="text/javascript" src="/static/user/validarEliminar.js"></script>
+{% endblock %}
+
+
+
+		 	

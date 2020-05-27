@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block title %}Nuevo Ciclo Lectivo{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/ciclo/new.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+      <div  id="centro" class="rounded container">
+      <form action="{{url_for('ciclo_modificar')}}" method="POST" onsubmit="return validarCiclo()">
+        <input type="hidden" id="idCiclo" name="idCiclo" value="{{ ciclo.id }}" class="form-control"/>
+      <div  id="centro" class="rounded container">
+        <br>
+        <h1>Modificar datos de un Ciclo</h1>
+        <br>
+        <!-- Fecha inicio -->
+        <div class="custom-control-inline">
+          <label for="example-date-input">Fecha de Inicio:</label> &nbsp; &nbsp; &nbsp; 
+          <input class="form-control" name="fecha_ini" type="date" id="fecha_ini" value="{{ciclo.fecha_ini}}">
+          <br>
+          <br>
+        </div>
+        <div id="error-fecha_ini-empty" class="alert alert-danger">
+          <strong>La fecha de inicio debe ser obligatoria </strong> 
+        </div>
+        <div id="error-fecha_ini-menorActual" class="alert alert-danger">
+          <strong>La fecha de inicio debe ser mayor a la actual </strong> 
+        </div>
+        <br>
+
+        <!-- Fecha fin -->
+        <div class="custom-control-inline">
+          <label for="example-date-input">Fecha de Fin:</label>  &nbsp; &nbsp; &nbsp; 
+          <input class="form-control" name="fecha_fin" type="date" id="fecha_fin" value="{{ciclo.fecha_fin}}">
+        </div>
+        <br>
+        <br>
+        <div id="error-fecha_fin-empty" class="alert alert-danger">
+          <strong>La fecha de fin debe ser obligatoria </strong> 
+        </div>
+        <div id="error-fecha_fin-menorIni" class="alert alert-danger">
+          <strong>La fecha de fin debe ser mayor a la 
+          <br>  fecha de inicio.
+          </strong> 
+        </div>
+        
+
+        <!-- Semestre -->
+        <div class="custom-control-inline">
+          <label for="example-date-input">Semestre:</label>  &nbsp; &nbsp; &nbsp; 
+          <input id="semestre" name="semestre" placeholder="Semestre" class="form-control" value="{{ciclo.semestre}}"/>
+        </div>
+        <div id="error-semestre-empty" class="alert alert-danger">
+          <strong>El semestre es obligatorio  </strong> 
+        </div>
+        <div id="error-semestre-condicion" class="alert alert-danger">
+          <strong>El semestre debe contener solo numeros</strong> 
+        </div>
+        <br>
+      </div>
+    <button id="btnvalidar" type="submit" class="btn btn-primary">Modificar</button>
+    </form>
+        <br>
+        <br>
+    </div>
+  </div>
+
+    <div class="col columna-lateral">
+    </div>
+ </div>
+
+{% endblock %} 
+
+{% block footer%}
+<!-- <script src="/static/user/indexUser.vue" type="text/javascript" ></script> -->
+<script type="text/javascript" src="/static/ciclo/validaciones.js"></script>
+{% endblock%}
+
+

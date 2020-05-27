@@ -1,0 +1,246 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/user/new.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+      <div  id="centro" class="rounded container">
+      <br>
+      <h1>Crear un usuario</h1>
+      <br>
+        <form action="{{ url_for('user_create', pagina=0) }}" method="POST" onsubmit="return validarRegistrar()">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger"><strong>{{ message }}</strong></div>
+            {% endfor %}
+          {% endif %}
+          {% endwith %}
+        <!-- Nombre -->
+        <div class="custom-control-inline">
+          <label>Nombre:</label> &nbsp; &nbsp; &nbsp; 
+          <input id="first_name" name="first_name" placeholder="Nombre" class="form-control"/> 
+        </div>
+          <br>
+          <div id="error-first_name-empty" class="alert alert-danger">
+                <strong>El nombre es obligatorio </strong> 
+          </div>
+          <div id="error-first_name-only-letters" class="alert alert-danger">
+                <strong>El nombre debe contener solo letras</strong> 
+          </div>
+          <br>
+
+          <!-- Apellido -->
+          <div class="custom-control-inline">
+            <label>Apellido:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="last_name" name="last_name" placeholder="Apellido" class="form-control"/>
+          </div>
+          <br>
+          <div id="error-last_name-empty" class="alert alert-danger">
+                <strong>El apellido es obligatorio </strong> 
+          </div>
+          <div id="error-last_name-only-letters" class="alert alert-danger">
+                <strong>El apellido debe contener solo letras</strong> 
+          </div>
+          <br>
+
+          <!-- Fecha nacimiento -->
+          <div class="custom-control-inline"> 
+            <label>Fecha de nacimiento:</label> &nbsp; &nbsp; &nbsp; 
+            <input type="date" id="fecha_nac" name="fecha_nac" class="form-control"/>
+          </div>
+          <br>
+          <br>
+          <div id="error-fecha_nac-empty" class="alert alert-danger">
+                <strong>La fecha de nacimiento es obligatoria</strong> 
+          </div>
+          <div id="error-fecha_nac-condicion" class="alert alert-danger">
+                <strong>Ingrese una fecha de nacimiento válida.</strong> 
+          </div>
+
+          <!--Tipo de documento -->
+          <div class="custom-control-inline">
+            <label>Tipo de documento:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="tipo_doc" class="form-control" name="tipo_doc">
+              {% for documento in documentos %}
+              <option value="{{documento.id}}">            
+              {{documento.nombre}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+          <br>
+
+          <!-- Numero doc -->
+          <div class="custom-control-inline"> 
+            <label>Numero de documento:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="numero_doc" name="numero_doc" placeholder="Numero de documento" class="form-control"/>
+          </div>
+          <br>
+          <br>
+          <div id="error-numero_doc-empty" class="alert alert-danger">
+            <strong>El numero de documento es obligatorio </strong> 
+          </div>
+          <div id="error-numero_doc-only-numbers" class="alert alert-danger">
+            <strong>El numero de documento debe contener solo numeros</strong> 
+          </div>
+
+          <!--Genero-->
+          <label>Genero:</label>
+              <input name="genero" value="1" type="radio" checked/>
+              <label>Masculino</label>
+              <input name="genero" value="2" type="radio"/>
+              <label>Femenino</label>
+              <input name="genero" value="3" type="radio"/>
+              <label>Otro</label>
+          <br>
+          <br>
+          <!--Domicilio -->
+          <div class="custom-control-inline"> 
+            <label>Domicilio:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="domicilio" name="domicilio" placeholder="Domicilio" class="form-control"/>
+          </div>
+          <div id="error-domicilio-empty" class="alert alert-danger">
+                <strong>El domicilio es obligatorio </strong> 
+          </div>
+          <br>
+          <br>
+          <!--Localidad-->
+          <div class="custom-control-inline">
+            <label>Localidades:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="localidad" class="form-control" name="localidad">
+              {% for localidad in localidades %}
+              <option value="{{localidad.id}}">            
+              {{localidad.nombre}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+          <br>
+          <!--Telefono-->
+          <div class="custom-control-inline"> 
+            <label>Telefono:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="telefono" name="telefono" placeholder="telefono" class="form-control"/>
+          </div>
+          <br>
+          <br>
+          <div id="error-telefono-empty" class="alert alert-danger">
+                <strong>El telefono es obligatorio </strong> 
+          </div>
+          <div id="error-telefono-only-numbers" class="alert alert-danger">
+            <strong>El numero de telefono debe contener solo numeros</strong> 
+          </div>
+          <!-- Correo -->
+          <div class="custom-control-inline"> 
+            <label>Correo:</label> &nbsp; &nbsp; &nbsp; 
+            <input id="email" name="email" placeholder="Correo" class="form-control"/>
+          </div>
+          <br>
+          <div id="error-email-empty" class="alert alert-danger">
+                <strong>El email es obligatorio </strong> 
+          </div>
+          <div id="error-email-condition" class="alert alert-danger">
+                <strong>Ingrese un email valido</strong> 
+          </div>
+          <br>
+          <!--Contraseña-->
+          <div class="custom-control-inline">
+            <label>Contraseña:</label>&nbsp; &nbsp; &nbsp; 
+            <input id="password" type="password" name="password" placeholder="Contraseña" class="form-control"/>
+          </div>
+          <br>
+          <div id="error-password-empty" class="alert alert-danger">
+                <strong>La contraseña es obligatoria </strong> 
+            </div>
+          <div id="error-password-condition" class="alert alert-danger">
+                <strong>Entre de 8 y 10 caracteres al 
+                        <br>menos una letra y un número.
+                        <br>No debe contener simbolos.
+                </strong> 
+          </div>
+          <br>
+         <label>Estado:</label>
+              <input name="estado" value="1" type="radio" checked/>
+              <label>Activo</label>
+              <input name="estado" value="0" type="radio"/>
+              <label>Bloqueado</label>
+          <br>
+          <br>
+          <!-- Rol -->
+          <div class="custom-control-inline">
+            <label>Rol:</label> &nbsp; &nbsp; &nbsp; 
+            <select v-model="selected" id="rol" class="form-control" name="rol">
+              {% for rol in roles %}
+              <option value="{{rol.name}}">            
+              {{rol.name}}
+              </option>
+              {% endfor %}
+            </select>
+            <br> 
+          </div>
+          <br>
+          <br>
+          <!-- Aparece el nivel magicamente 
+          <div id="app">
+            <label>Rol:</label>
+            <select v-model="selected" id="rol" class="form-control" name="rol">
+              {% for rol in roles %}
+              <option value="{{rol.name}}">            
+              {{rol.name}}
+              </option>
+              {% endfor %}
+             <option selected="true" disabled="disabled">seleccione el rol</option>
+            </select>
+            <br> -->
+
+            <!---<b>you selected: {%raw %} {{ selected }} {% endraw %}</b> esto estaba comentado originalmente-->
+          
+          <!-- Aparece el nivel magicamente 2
+            <div v-if="selected === 'alumno'">
+              <label>Nivel:</label>
+              <select  class="form-control" name="nivel">
+                {% for nivel in niveles %}
+                <option id="nivel" value="{{nivel.id}}">            
+                {{nivel.nombre_colores}}
+                </option>
+                {% endfor %}
+                 <option selected="true" disabled="disabled">seleccione el nivel</option>
+              </select>
+              <br>
+            </div>
+            <div v-else> 
+              <input type="hidden" name="nivel" value="6">
+            </div>
+          </div> -->
+          <button id="btnvalidar" type="submit" class="btn btn-primary">Crear</button>
+        </form>
+        <br>
+        <br>
+    </div>
+  </div>
+
+    <div class="col columna-lateral">
+    </div>
+ </div>
+{% endblock %}
+{% block footer %}
+<script src="/static/user/indexUser.vue" type="text/javascript" ></script>
+<script type="text/javascript" src="/static/user/validaciones.js"></script>
+{% endblock %}
+
+
+
+
+
+        

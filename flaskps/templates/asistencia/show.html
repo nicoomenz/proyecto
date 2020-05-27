@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}Asistencias{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/horario/horario.css" type="text/css" media="all"> <!-- LO PUSO MATI -->
+  <link rel="stylesheet" href="static/instrumentos/new.css">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+      <div id="centro" class="rounded container">
+      <br>
+      <h1>Todas las asistencias</h1>
+      <br>
+      <table class="table table-dark table-hover rounded">
+        <thead>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Fecha</th>
+            <th>Asistencia</th>
+        </thead>
+        <tbody>
+            {% for asistencia in asistencias %}
+            <tr>
+          <td>{{ asistencia.nombre }}</td> 
+          <td>{{ asistencia.apellido }}</td> 
+          <td>{{ asistencia.fecha}}</td>
+          {% if asistencia.asistencia == 1 %}
+            <td>Presente</td>
+          {% else %}
+            <td>Falta</td>
+          {% endif %}
+          <td></td>
+                {% endfor %}
+           </td>  
+        </tbody>
+     </table>
+      <br>
+      <nav aria-label="page navigation">
+            <ul class="pagination justify-content-center">
+              {% if rango < 1 %}
+                <li class="page-item"><a class="page-link" href="?action={{url_for(vista)}}&pagina=0">1</a></li>  
+              {% else %}
+              {% for i in range(rango) %}
+              {% if vista == 'user_find' %}
+                <li class="page-item"><a class="page-link" href="{{ url_for(vista, pagina=i)}}">{{i}}</a></li>
+              {% else %}
+                  <li class="page-item"><a class="page-link" href="{{ url_for(vista, pagina=i)}}">{{i}}</a></li>
+              {% endif %}    
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </nav>
+    </div>
+  </div>
+
+  <div class="col columna-lateral"></div>
+</div>
+{% endblock %}
+{% block footer%}
+{% endblock %}
+

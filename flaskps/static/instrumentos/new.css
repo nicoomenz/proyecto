@@ -1,0 +1,15 @@
+#centro{
+	background: #454d55;
+}
+
+h1, label{
+	color: #FFF;
+}
+
+.foto-instrumento{
+	max-width: 100px
+}
+
+#error-nombre-empty, #error-codigo-condition, #error-codigo-empty{
+	display: none
+}

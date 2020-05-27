@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% block title %}Horario{% endblock %}
+{% block head %}
+  {{ super() }}
+<link rel="stylesheet" href="/static/horario/horario.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+      <div id="centro" class="rounded container">
+      <br>
+      <h1>Mostrar horario</h1>
+      <br>
+          
+      <!-- Ciclo -->
+      <div class="custom-control-inline">
+        <label for="example-date-input">Ciclo:</label>  &nbsp; &nbsp; 
+        {%if horario.semestre == 1 %}
+          <p>Primer semestre | Fecha Inicio: {{horario.fecha_ini}} Fecha Fin: {{horario.fecha_fin}}</p>
+        {%else%}
+          <p>Segundo semestre | Fecha Inicio: {{horario.fecha_ini}} Fecha Fin: {{horario.fecha_fin}}</p>
+        {%endif%}
+      </div>
+      <br>
+
+      <!-- Taller -->
+      <div class="custom-control-inline">
+        <label for="example-date-input">Taller:</label>  &nbsp; &nbsp;
+        <p>{{horario.nombre}}</p>
+      </div>
+      <br>
+
+      <!-- Nucleo -->
+      <div class="custom-control-inline">
+        <label>Nucleo:</label> &nbsp; &nbsp;
+        {%for nucleo in nucleos%}
+        {%if horario.nucleo == nucleo.id%}
+        <p>{{nucleo.nombre}}</p>
+        {%endif%}
+        {%endfor%}
+      </div>
+      <br>
+
+      <!-- Dia -->
+      <div class="custom-control-inline">
+        <label>Dia:</label> &nbsp; &nbsp;
+        {%for dia in dias%}
+        {%if horario.dia_id == dia.id%}
+        <p>{{dia.nombre}}</p>
+        {%endif%}
+        {%endfor%}
+      </div>
+      <br>
+
+      <!-- Hora inicial --> 
+      <div class="custom-control-inline">
+        <label for="example-date-input">Hora de inicio:</label>  &nbsp; &nbsp;
+        <p> {{horario.hora_ini}}</p>
+      </div>
+      <br>
+      
+      <!-- Hora final --> 
+      <div class="custom-control-inline">
+        <label for="example-date-input">Hora de Fin:</label>  &nbsp; &nbsp;
+        <p> {{horario.hora_fin}}</p>
+      </div>
+      <br>
+      
+      <button  class="btn btn-primary"><a href="{{ url_for('horario_update', id= horario.id,) }}" style='text-decoration:none;color:white;' >Editar</a></button> &nbsp; &nbsp;
+     <button  class="btn btn-primary"><a href="{{ url_for('horario_index', pagina=0) }}" style='text-decoration:none;color:white;' >Volver</a></button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+      <br>
+      <br>
+    </div>
+  </div>
+
+  <div class="col columna-lateral"></div>
+</div>
+{% endblock %}
+{% block footer%}
+<script type="text/javascript" src="/static/horario/validaciones.js"></script>
+{% endblock %}
+

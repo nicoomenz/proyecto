@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block title %}Configuracion{% endblock %}
+{% block head %}
+  {{ super() }}
+<link rel="stylesheet" href="/static/configuracion/index.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+    	<div id="centro" class="rounded container">
+    		<br>
+			<h1>Configuracion:</h1>
+			<form action="{{ url_for('configuracion_modificar') }}" method="POST">
+	    		<label>Titulo:</label>
+	    		<input name="titulo" placeholder="Titulo" value="{{ configuracion.titulo }}"class="form-control"/>
+	    		<br>
+	    		<label>Descripcion:</label>
+	    		<textarea name="descripcion" class="form-control" placeholder="Descripcion" rows="5">{{ configuracion.descripcion }}</textarea> 
+	    		<!-- <input name="descripcion" placeholder="Descripcion" value="{{ configuracion.descripcion }}"class="form-control"/> -->
+	    		<br>
+	    		<label>Mail:</label>
+	    		<input class="form-control" value="{{ configuracion.mail }}" name="mail">
+	    		<br>
+	    		<label>Estado:</label>
+	    		{% if configuracion.estado  == false %}
+					<p>Bloqueado</p>
+              		<input name="estado" value="1" type="radio"/>
+              		<label>Activo</label>
+              		<input name="estado" value="0" type="radio" checked/>
+              		<label>Bloqueado</label>
+            	{% else %}
+              		<p>Activo</p> 
+              		<input name="estado" value="1" type="radio" checked/>
+              		<label>Activo</label>
+              		<input name="estado" value="0" type="radio"/>
+              		<label>Bloqueado</label>
+            	{% endif %}
+	    		<br>
+	    		<br>
+	    		<!-- traer estado de base de datos-->
+	    		<label>Paginacion:</label>
+	    		<input name="paginacion" placeholder="Paginacion" value="{{ configuracion.paginacion }}" class="form-control"/>
+	  			<br>
+		    	<button type="submit" class="btn btn-primary">Modificar</button>
+	  		</form>
+	  		<br>
+	  		<br>
+		</div>
+	</div>
+
+    <div class="col columna-lateral">
+    </div>
+ </div>
+{% endblock %}
+	
+
+

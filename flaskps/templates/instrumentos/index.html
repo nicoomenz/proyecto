@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block title %}Instrumentos{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="static/instrumentos/new.css">
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+    <div class="col-central">
+    	<table class="table table-dark table-hover rounded">
+    		<tr><td><form class="form-inline">
+    					<form class="form-inline" method="POST" action="#">
+		    			<button type="submit" class="btn btn-secondary">Buscar Instrumento</button>
+		        		<input class="form-control mr-sm-2" type="text" name="nombre" placeholder="Instrumentos">
+		        </form>
+  					</form>
+		        </td>
+		    </tr>
+		</table>
+		<br>
+   		 <table class="table table-image table-dark table-hover rounded">
+		    <thead>
+		      <tr>
+		        <th>Nombre</th>
+		        <th>Numero de inventario</th>
+		        <th></th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		        {% for instrumento in instrumentos %}
+		        <tr>
+		  		<td>{{ instrumento.nombre}}</td> 
+		  		<td>{{ instrumento.descripcionDeEstado }}</td> 
+		  		<td></td>
+		  		<td><button  class="btn btn-primary"><a href="{{ url_for('instrumento_show', id= instrumento.id) }}" style='text-decoration:none;color:white;' >Ver Detalle</a></button></td>
+		  		</tr>
+		  		{% endfor %}
+      		 </td>  
+		    </tbody>
+		 </table>
+		<nav aria-label="page navigation">
+            <ul class="pagination justify-content-center">
+              {% if rango < 1 %}
+                <li class="page-item"><a class="page-link" href="?action={{url_for(vista)}}&pagina=0">1</a></li>  
+              {% else %}
+              {% for i in range(rango) %}
+              {% if vista == 'user_find' %}
+                <li class="page-item"><a class="page-link" href="{{ url_for(vista, pagina=i)}}">{{i}}</a></li>
+              {% else %}
+                  <li class="page-item"><a class="page-link" href="{{ url_for(vista, pagina=i)}}">{{i}}</a></li>
+              {% endif %}    
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </nav>
+  	</div>
+ 	<div class="col columna-lateral"></div>
+ </div>
+{% endblock %}

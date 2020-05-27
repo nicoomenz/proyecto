@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block title %}Ciclo Lectivo{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/user/new.css" type="text/css" media="all">
+{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<div class="row align-items-center">
+<div class="col columna-lateral"></div>
+
+<div class="col-central">
+  <div  id="centro" class="rounded container">
+  	<h1>Estudiantes Asignados</h1>
+	<table class="table table-dark table-hover rounded">
+		<thead>
+			<tr>
+		    	<th>Nombre</th>
+		        <th>Apellido</th>
+		        <th></th>
+		    	<th></th>
+		    </tr>
+		</thead>
+		<tbody>
+			{% for alumno in alumnos %}
+			<tr>
+				<td>{{ alumno.nombre}}</td> 
+				<td>{{ alumno.apellido }}</td> 
+		  	</tr>
+		  	{% endfor %}
+      		</td>  
+		</tbody>
+	</table>
+    <br>
+    <button  class="btn btn-primary"><a href="{{ url_for('taller_index') }}" style='text-decoration:none;color:white;' >Volver</a></button>
+    <br>
+    <br>
+  </div>
+</div>  
+
+<div class="col columna-lateral"></div>  
+		 	
+		 	
+{% endblock %}

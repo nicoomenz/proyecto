@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block title %}Instrumento{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/instrumentos/new.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+    <br>
+    <br>
+  <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div id="centro" class="col-central">
+      <div class="rounded container">
+        <br>
+        <h1>Crear un Instrumento</h1>
+        <form action="{{ url_for('instrumentos_create') }}" method="POST" onsubmit="return validarRegistrarInstrumento()" enctype="multipart/form-data">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger"><strong>{{ message }}</strong></div>
+            {% endfor %}
+          {% endif %}
+          {% endwith %}
+          <label>Nombre:</label>
+          <input name="nombre" id="nombre" placeholder="Nombre" class="form-control"/>
+          <br>
+          <div id="error-nombre-empty" class="alert alert-danger">
+                <strong>El nombre es obligatorio </strong> 
+          </div>
+          <label>Numero de inventario:</label>
+         <input name="descripcionDeEstado" id="descripcionDeEstado" class="form-control" placeholder="Numero de inventario"></input>
+          <br>
+          <div id="error-codigo-empty" class="alert alert-danger">
+                <strong>El codigo es obligatorio </strong> 
+          </div>
+          <div id="error-codigo-condition" class="alert alert-danger">
+              <strong>El codigo ya existe</strong> 
+          </div>
+          <label>Tipo:</label>
+          <select  class="form-control" id="tipoInstrumento_id" name="tipoInstrumento_id">
+            {% for tipoInstrumento in tipoInstrumentos %}
+            <option value="{{tipoInstrumento.id}}">            
+            {{tipoInstrumento.name}}
+            </option>
+            {% endfor %}
+          </select>
+          <br>
+          <label>Imagen:</label>
+          <input type="file" name="imagen" placeholder="Imagen">
+          <br>
+          <br>
+          <button type="submit" class="btn btn-primary">Crear</button>
+        </form>
+        <br>
+        <br>
+      </div>
+    </div>
+
+    <div class="col columna-lateral">
+    </div>
+</div>
+{% endblock %}
+{%block footer%}
+<script type="text/javascript" src="/static/instrumentos/validaciones.js"></script>
+{%endblock%}

@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block title %}Detalle del Instrumento{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/horario/horario.css" type="text/css" media="all"> <!-- LO PUSO MATI -->
+  <link rel="stylesheet" href="static/instrumentos/new.css">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+      <div id="centro" class="rounded container">
+      <br>
+      <h1>Detalles del Instrumento</h1>
+      <br>
+      <div class="custom-control-inline">
+        <label>Nombre:</label> &nbsp; &nbsp; &nbsp; 
+        <p>{{ instrumento.nombre }}</p> 
+      </div>
+      <br>  
+      <div class="custom-control-inline">
+        <label>Numero de Inventario:</label> &nbsp; &nbsp; &nbsp; 
+        <p>{{ instrumento.descripcionDeEstado }}</p> 
+      </div>
+      <br>
+      <div class="custom-control-inline">
+      <label>Imagen:</label> &nbsp; &nbsp; &nbsp;
+      <td><img src='data:image/png;base64,{{instrumento.imagen}}' class="foto-instrumento img-thumbnail" width="150" height="150"></td>  
+      </div>
+      <br>
+      <br>
+      <td><button  class="btn btn-primary"><a href="{{ url_for('instrumento_update', id= instrumento.id) }}" style='text-decoration:none;color:white;' >Modificar</a></button></td> 
+      &nbsp; &nbsp;
+      <td><button  class="btn btn-danger"><a href="{{ url_for('instrumento_delete', id= instrumento.id) }}"  style='text-decoration:none;color:white;' onclick="return validarEliminar()" >Eliminar</a></button></td>
+      <br>
+      <br>
+     <button  class="btn btn-primary"><a href="{{ url_for('instrumentos_index', pagina=0) }}" style='text-decoration:none;color:white;' >Volver</a></button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+      <br>
+      <br>
+    </div>
+  </div>
+
+  <div class="col columna-lateral"></div>
+</div>
+{% endblock %}
+{% block footer%}
+<script type="text/javascript" src="/static/user/validarEliminar.js"></script>
+{% endblock %}
+

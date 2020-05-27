@@ -1,0 +1,176 @@
+{% extends "layout.html" %}
+{% block title %}Detalles de un Estudiante{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/user/new.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+      <div  id="centro" class="rounded container">
+      <br>
+      <h1>Detalles de un Estudiante</h1>
+      <br>
+          <input type="hidden" name="idUser" value="{{ estudiante.id }}" class="form-control"/>
+        <!-- Nombre -->
+        <div class="custom-control-inline">
+          <label>Nombre:</label> &nbsp; &nbsp; &nbsp; 
+          <p>{{ estudiante.nombre }}</p> 
+        </div>
+        <br>
+
+        <!-- Apellido -->
+        <div class="custom-control-inline">
+          <label>Apellido:</label> &nbsp; &nbsp; &nbsp; 
+          <p>{{ estudiante.apellido }}</p>
+        </div>
+        <br>
+
+        <!-- Fecha nacimiento -->
+        <div class="custom-control-inline"> 
+          <label>Fecha de nacimiento:</label> &nbsp; &nbsp; &nbsp; 
+          <p>{{ estudiante.fecha_nac }}</p>
+        </div>
+        <br>
+
+        <!--Tipo de documento -->
+        <div class="custom-control-inline">
+          <label>Tipo de documento:</label> &nbsp; &nbsp; &nbsp; 
+          {% for documento in documentos%}
+          {% if documento.id == estudiante.tipo_doc_id %}
+            <p>{{documento.nombre}}</p>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <br>
+
+        <!-- Numero doc -->
+        <div class="custom-control-inline"> 
+          <label>Numero de documento:</label> &nbsp; &nbsp; &nbsp; 
+          <p>{{ estudiante.numero_doc }}</p>
+        </div>
+        <br>
+
+          <!-- Responsable a cargo -->
+          <div class="custom-control-inline">
+            <label>Responsable a cargo:</label> &nbsp; &nbsp; &nbsp; 
+          {% for responsable in responsables%}
+          {% if responsable.id == id_responsable.id_responsable %}
+            <p>{{responsable.responsable}}</p>
+          {% endif %}
+          {% endfor %}
+          </div>
+          <br>
+
+
+
+        <!--Genero-->
+        <div class="custom-control-inline"> 
+        <label>Genero:</label> &nbsp; &nbsp; &nbsp; 
+        {% if id_genero.id_genero  == 1 %}
+          <p>Masculino</p>
+        {% endif %}
+        {% if id_genero.id_genero  == 2 %}
+          <p>Femenino</p>
+        {% endif %}
+        {% if id_genero.id_genero  == 3 %}
+          <p>Otro</p>
+        {% endif %}
+        </div>
+        <br>
+
+        <!--Lugar de nacimiento -->
+        <div class="custom-control-inline"> 
+          <label>Lugar de nacimiento:</label> &nbsp; &nbsp; &nbsp; 
+          <p>{{ estudiante.lugar_nacimiento }}</p>    
+        </div>
+        <br>
+
+        <!--Domicilio -->
+        <div class="custom-control-inline"> 
+          <label>Domicilio:</label> &nbsp; &nbsp; &nbsp; 
+          <p>{{ estudiante.domicilio }}</p>    
+        </div>
+        <br>
+
+        <!--Localidad-->
+        <div class="custom-control-inline">
+          <label>Localidades:</label> &nbsp; &nbsp; &nbsp; 
+          {% for localidad in localidades%}
+            {% if localidad.id == estudiante.localidad_id %}
+              <p>{{localidad.nombre}}</p>
+          {%endif%}
+          {% endfor %} 
+        </div>
+        <br>
+
+        <!--Barrio -->
+        <div class="custom-control-inline"> 
+          <label>Barrio:</label> &nbsp; &nbsp; &nbsp; 
+          {% for barrio in barrios%}
+          {% if barrio.id == estudiante.barrio_id %}
+            <p>{{barrio.nombre}}</p>
+          {% endif %}
+          {% endfor %} 
+        </div>
+        <br>
+
+        <!--Escuela -->
+        <div class="custom-control-inline"> 
+          <label>Escuela:</label> &nbsp; &nbsp; &nbsp; 
+          {% for escuela in escuelas%}
+          {% if escuela.id == estudiante.escuela_id %}
+            <p>{{escuela.nombre}}</p>
+          {% endif %}
+          {% endfor %} 
+        </div>
+        <br>
+
+        <!--Telefono-->
+        <div class="custom-control-inline"> 
+          <label>Telefono:</label> &nbsp; &nbsp; &nbsp; 
+            <p>{{ estudiante.telefono }}</p>
+        </div>
+        <br>
+
+        <!-- Estado -->
+        <div class="custom-control-inline">
+        <label>Estado:</label> &nbsp; &nbsp; &nbsp; 
+        {% if estudiante.estado  == false %}
+          <p>Activo</p>
+        {% else %}
+          <p>Bloqueado</p>
+        {% endif %}
+        </div>
+        <br>
+
+        <!--Nivel -->
+        <div class="custom-control-inline"> 
+          <label>Nivel:</label> &nbsp; &nbsp; &nbsp;
+          {%for nivel in niveles%} 
+          {%if nivel.id == id_nivel.id_nivel%}
+          <p>{{nivel.nombre_colores}}</p>
+          {%endif%}
+          {%endfor%}
+        </div>
+        <br>
+        <button  class="btn btn-primary"><a href="{{ url_for('student_index', pagina=0) }}" style='text-decoration:none;color:white;' >Volver</a></button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <button  class="btn btn-primary"><a href="{{ url_for('student_update', id= estudiante.id, pagina=0) }}" style='text-decoration:none;color:white;' >Editar</a></button>
+        <br>
+        <br>
+      </div>
+      <br>
+    </div>
+
+    <div class="col columna-lateral"></div>
+ </div>
+{% endblock %}
+{% block footer %}
+
+<script src="/static/user/indexUser.vue" type="text/javascript" ></script>
+<script type="text/javascript" src="/static/user/validaciones.js"></script>
+{% endblock %}

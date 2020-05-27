@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+{% block title %}Horario{% endblock %}
+{% block head %}
+  {{ super() }}
+<link rel="stylesheet" href="/static/horario/horario.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+      <div id="centro" class="rounded container">
+      <br>
+      <h1>Asignar horario</h1>
+      <br>
+      <form action="{{ url_for('horario_create')}}" method="POST" onsubmit="return validarHorario()">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger"><strong>{{ message }}</strong></div>
+            {% endfor %}
+          {% endif %}
+          {% endwith %}
+          <!-- Ciclos - Talleres -->
+          <div class="custom-control-inline">
+            <label for="example-date-input">Ciclo/Taller:</label>  &nbsp; &nbsp; &nbsp; 
+            <select title="Seleccione un taller" class="form-control" id="ciclo_taller" name="ciclo_taller" >
+            {% for ciclo_taller in ciclos_talleres %}
+              <option value="{{ciclo_taller.id}}">            
+              Sem {{ciclo_taller.semestre}}, Inicio {{ciclo_taller.fecha_ini}}, Fin {{ciclo_taller.fecha_fin}} / Taller: {{ciclo_taller.nombre}}
+              </option>
+            {% endfor %}    
+            </select>
+          </div>
+          <br>
+          <br>
+
+          <!-- Nucleo -->
+          <div class="custom-control-inline">
+            <label for="example-date-input">Nucleo:</label>  &nbsp; &nbsp; &nbsp; 
+            <select title="Seleccione un nucleo" class="form-control" id="nucleo" name="nucleo" >
+            {% for nucleo in nucleos %}
+              <option value="{{nucleo.id}}">            
+                {{nucleo.nombre}}, {{nucleo.direccion}}
+              </option>
+            {% endfor %}    
+            </select>
+          </div>
+          <br>
+          <br>
+
+          <!-- Dia -->
+          <div class="custom-control-inline">
+            <label for="example-date-input">Dia:</label>  &nbsp; &nbsp; &nbsp; 
+            <select title="Seleccione un dia" class="form-control" id="dia" name="dia" >
+            {% for dia in dias %}
+              <option value="{{dia.id}}">            
+                {{dia.nombre}}
+              </option>
+            {% endfor %}    
+            </select>
+          </div>
+          <br>
+          <br>
+
+          <!-- Hora inicial --> 
+          <div class="custom-control-inline">
+            <label for="example-date-input">Hora de inicio:</label>  &nbsp; &nbsp; &nbsp; 
+            <input type="time" id="hora_ini" name="hora_ini" step="1" value="00:00:00" class="form-control">
+          </div>
+          <br>
+          <div id="error-hora_inicial-empty" class="alert alert-danger">
+                <strong>La hora inicial no puede estar vacia</strong> 
+          </div>
+          <div id="error-hora_inicial-condicion" class="alert alert-danger">
+            <strong>La hora inicial se sobrepone con una hora existente</strong> 
+          </div>
+          <div id="error-hora_inicial-mayor" class="alert alert-danger">
+            <strong>La hora inicial debe ser menor a la hora final</strong> 
+          </div>
+          <br>
+
+          <!-- Hora final --> 
+          <div class="custom-control-inline">
+            <label for="example-date-input">Hora de fin:</label>  &nbsp; &nbsp; &nbsp; 
+            <input type="time" id="hora_fin" name="hora_fin" step="1" value="00:00:00" class="form-control">
+          </div>
+          <br>
+          <div id="error-hora_final-empty" class="alert alert-danger">
+            <strong>La hora final no puede estar vacia</strong> 
+          </div>
+          <div id="error-hora_final-condicion" class="alert alert-danger">
+            <strong>La hora final se sobrepone con una hora existente</strong> 
+          </div>
+          <br>
+          <button id="btnvalidar" type="submit" class="btn btn-primary">Crear</button>
+        </form>
+        <br>
+        <br>
+    </div>
+  </div>
+
+    <div class="col columna-lateral">
+    </div>
+ </div>
+{% endblock %}
+{% block footer%}
+<script type="text/javascript" src="/static/horario/validaciones.js"></script>
+{% endblock %}
+
+
+
+

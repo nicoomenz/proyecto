@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Consultas{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+  <h1>Crear una consulta</h1>
+  <form action="{{ url_for('instrumento_create') }}" method="POST">
+    <input name="nombre" placeholder="Nombre"/>
+    <textarea name="descripcionDeEstado" placeholder="Descripción"></textarea>
+    <select name='tipoInstrumento_id'>
+      <option value='1'>uno</option>
+    </select>
+    
+    <input type="submit" value="Crear">
+  </form>
+{% endblock %}

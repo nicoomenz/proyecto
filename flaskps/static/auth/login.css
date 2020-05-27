@@ -1,0 +1,11 @@
+#centro{
+	background: #454d55;
+}
+
+h1, label{
+	color: #FFF;
+}
+
+#error-pass, #error-user{
+	display: none;
+}

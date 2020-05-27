@@ -1,0 +1,14 @@
+#centro{
+	background: #454d55;
+}
+
+h1, label{
+	color: #FFF;
+}
+
+#error-first_name-empty, #error-last_name-empty, #error-first_name-only-letters, #error-last_name-only-letters,
+#error-numero_doc-empty, #error-numero_doc-only-numbers,#error-telefono-only-numbers,
+#error-domicilio-empty, #error-barrio-empty, #error-escuela-empty, #error-fecha_nac-empty, #error-tipo_doc-empty,
+#error-fecha_nac-condicion{
+	display: none;
+}

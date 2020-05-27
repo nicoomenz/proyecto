@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block title %}Modificar Instrumento{% endblock %}
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/horario/horario.css" type="text/css" media="all"> <!-- LO PUSO MATI -->
+  <link rel="stylesheet" href="new.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+    <br>
+    <br>
+  <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div id="centro" class="col-central">
+      <div class="rounded container">
+        <br>
+        <h1>Modificar un Instrumento</h1>
+        <form action="{{ url_for('instrumento_modificar') }}" onsubmit="return validarRegistrarInstrumento()" method="POST">
+          {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-danger"><strong>{{ message }}</strong></div>
+            {% endfor %}
+          {% endif %}
+          {% endwith %}
+          <input type="hidden" name="idInstrumento" value="{{ instrumentos.id }}">
+          <label>Nombre:</label>
+          <input name="nombre" placeholder="Nombre" value="{{ instrumentos.nombre }}"class="form-control"/>
+          <br>
+          <label>Numero de inventario:</label>
+         <input  name="descripcionDeEstado" class="form-control" value="{{ instrumentos.descripcionDeEstado }}"></>
+          <br>
+          <label>Tipo:</label>
+          <select  class="form-control" name="tipoInstrumento_id">
+            {% for tipoInstrumento in tipoInstrumentos %}
+            <option value="{{ tipoInstrumento.id }}">            
+            {{tipoInstrumento.name}}
+            </option>
+            {% endfor %}
+          </select>
+          <br>
+          <button type="submit" class="btn btn-primary">Modificar</button>
+        </form>
+        <br>
+        <button  class="btn btn-primary"><a href="{{ url_for('instrumentos_index', pagina=0) }}" style='text-decoration:none;color:white;' >Volver</a></button> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        <br>
+        <br>
+      </div>
+    </div>
+
+    <div class="col columna-lateral">
+    </div>
+</div>
+{% endblock %}
+{%block footer%}
+<script type="text/javascript" src="/static/instrumentos/validaciones.js"></script>
+{%endblock%}

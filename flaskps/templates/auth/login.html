@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+{% block head %}
+  {{ super() }}
+<link rel="stylesheet" href="/static/auth/login.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+
+    <div class="col-central">
+    	<div id="centro" class="rounded container">
+    		<br>
+			<h1>Iniciar sesión</h1>
+			<form action="{{ url_for('auth_authenticate') }}" method="POST" onsubmit="return validarIniciar();">
+				 <div class="col-xs-2">
+				 	<div class="form-group">
+				 		<label for="email">Email:</label>
+	    				<input id="email" name="email" placeholder="Email" class="form-control"/>
+	    				<br>
+	    				<div id="error-user" class="alert alert-danger">
+        				<strong>El email es obligatorio </strong>	
+				 		</div>
+	    			</div>
+	  				<br>
+	    			<label for="pwd">Contraseña:</label>
+	    			<input id="password" name="password" placeholder="Contraseña" type="password" class="form-control"/>
+	    			<br>
+	    			    <div id="error-pass"  class="alert alert-danger">
+        				<strong>La contraseña es obligatoria </strong>	
+				 		</div>
+	  			</div>
+	  			<br>
+		    	<button type="submit" class="btn btn-primary">Ingresar</button>
+		    	<br>
+		    	<br>
+		    	{% with messages = get_flashed_messages() %}
+          		{% if messages %}
+            	{% for message in messages %}
+            		<div class="alert alert-danger"><strong>{{ message }}</strong></div>
+            	{% endfor %}
+          		{% endif %}
+          		{% endwith %}
+	  		</form>
+	  		<br>
+	  		<br>
+		</div>
+	</div>
+
+    <div class="col columna-lateral">
+    </div>
+ </div>
+{% endblock %}
+{% block footer%}
+<script type="text/javascript" src="/static/auth/validaciones.js"></script>
+{% endblock %}
+

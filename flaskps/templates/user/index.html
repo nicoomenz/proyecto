@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block title %}Usuarios{% endblock %}
+{% block head %}
+  {{ super() }}
+<link rel="stylesheet" href="/static/user/new.css" type="text/css" media="all">
+{% endblock %}
+{% block content %}
+<br>
+<br>
+ <div class="row align-items-center">
+    <div class="col columna-lateral"></div>
+    <div class="col-central rounded container" id="centro">
+    	<br>
+   	<table class="table table-dark table-hover rounded">
+    		<tr><td><form class="form-inline" method="POST" action="{{ url_for('user_find',pagina=0) }}">
+		    		<button type="submit" class="btn btn-secondary">Buscar Usuario</button>
+		        	<input class="form-control mr-sm-2" type="text" name="nombre" placeholder="Usuario">
+		        </form>
+ 				</td>
+		      	<td>
+		      		<form method="POST" class="form-inline" action="{{ url_for('user_active', pagina=0) }}">
+		      			<input type="submit" class="btn btn-secondary" value="Activos">
+		      		</form>	
+		      	</td>
+		      	<td>
+		      		<form method="POST" class="form-inline" action="{{ url_for('user_bloq', pagina=0) }}">
+		      			<input type="submit" class="btn btn-secondary" value="Bloqueados">
+		      		</form>	
+		      	</td>
+		    </tr>
+		</table>
+		<br>
+   		 <table class="table table-dark table-hover rounded">
+		    <thead>
+		        <th>Usuario</th>
+		        <th>Nombre</th>
+		        <th>Apellido</th>
+		        {% for permiso in permisos %}
+                {% if permiso.nombre == "docente_update"%}
+		        <th></th>
+		        {%endif%}
+                {% endfor %}
+                {% for permiso in permisos %}
+                {% if permiso.nombre == "docente_destroy"%}
+		        <th></th>
+		        {%endif%}
+                {% endfor %}
+		    </thead>
+		    <tbody>
+		        {% for user in users %}
+		        <tr>
+		  		<td>{{ user.email }}</td> 
+		  		<td>{{ user.first_name }}</td> 
+		  		<td>{{ user.last_name }}</td>
+		  		{% for permiso in permisos %}
+                {% if permiso.nombre == "docente_update"%}
+                <td>
+		  			<button  class="btn btn-primary"><a href="{{ url_for('user_show', id= user.id, pagina=0) }}" style='text-decoration:none;color:white;' >Ver detalles</a></button>
+		  		</td>
+		  		{%endif%}
+                {% endfor %}
+                {% for permiso in permisos %}
+                {% if permiso.nombre == "docente_destroy"%}
+		  		<td><button  class="btn btn-danger"><a href="{{ url_for('user_delete', id= user.id, pagina=0) }}" onclick="return validarEliminar()" style='text-decoration:none;color:white;' >Eliminar</a></button>
+ 				</td>
+ 				{%endif%}
+                {% endfor %}
+		  		{% endfor %}
+      		 </td>  
+		    </tbody>
+		 </table>
+		 <nav aria-label="page navigation">
+            <ul class="pagination justify-content-center">
+              {% if rango < 1 %}
+                <li class="page-item"><a class="page-link" href="?action={{url_for(vista)}}&pagina=0">1</a></li>  
+              {% else %}
+              {% for i in range(rango) %}
+              {% if vista == 'user_find' %}
+              	<li class="page-item"><a class="page-link" href="{{ url_for(vista, pagina=i)}}">{{i}}</a></li>
+              {% else %}
+                  <li class="page-item"><a class="page-link" href="{{ url_for(vista, pagina=i)}}">{{i}}</a></li>
+              {% endif %}    
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </nav>
+  		
+  	</div>
+ 	<div class="col columna-lateral"></div>
+ </div>
+{% endblock %}
+{% block footer %}
+<script type="text/javascript" src="/static/user/validarEliminar.js"></script>
+
+{% endblock %}
